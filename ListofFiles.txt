@@ -1,0 +1,62 @@
+- Past Due and Nonaccrual Loans Wholly or Partially US Gvmt Guaranteed
+1-4 Family Residential Net Loans and Leases
+Additional Noninterest Expense
+Additional Noninterest Income
+Amount of Ownership (Seller) Interests
+Assets and Liabilities
+Bank Assets Sold and Securitized
+Carrying Amount of Assets Covered by FDIC Loss-Share Agreements
+Cash and Balances Due
+Cash Dividends
+Changes in Bank Equity Capital
+Collective Investment & Common Trust Funds
+Corporate Trust and Agency Accounts
+Deposits Based on the $100,000 Reporting Threshold
+Deposits Based on the $250,000 Reporting Threshold
+Deposits Held in Foreign Offices
+Derivatives
+Fiduciary and Related Services
+Fiduciary settlements, surcharges, and other losses
+Goodwill and Other Intangibles
+Gross Fiduciary and Related Services Income
+Income and Expense
+Interest income and expense in foreign offices
+Letters of Credit
+Loan Charge-Offs and Recoveries
+Loans Restructured in Troubled Debt Restructurings
+Loans to Depository Institutions
+Maturity & Repricing for Loans and Leases
+Maximum Amount of Credit Exposure Retained
+Memoranda
+Net Charge-offs 1-4 Family Residential
+Net charge-offs to loans
+Net Loans and Leases
+Nonaccrual 1-4 Family Residential
+Noncurrent loans to loans
+Nontransaction Accounts
+Number of Fiduciary and Related Asset Accounts
+Other Real Estate Owned
+Past Due 30-89 Days 1-4 Family Residential
+Past Due 90+ Days 1-4 Family Residential
+Past Due and Nonaccrual Assets
+Performance and Condition Ratios
+readme.htm	505 kB	12/11/15, 7:31:55 PM
+Securities
+Small Business Loans
+Time Deposits of $100,000 or More
+Time Deposits of Less Than $100,000
+Total Assets and Liabilities in Foreign Offices
+Total Charge-offs 1-4 Family Residential
+Total Debt Securities
+Total Deposits
+Total Fiduciary and Related Assets
+Total Interest Expense
+Total Interest Income
+Total Loans and Leases in Foreign Offices
+Total Managed Assets held in Fiduciary Accounts
+Total Recoveries 1-4 Family Residential
+Total Unused Commitments
+Trading Account Gains & Fees
+Transaction Accounts
+U.S. Government Obligations
+Unused Commitments
