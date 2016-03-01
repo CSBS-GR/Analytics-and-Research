@@ -1,7 +1,7 @@
 SELECT 
-SUM(ideoth) as sum_ideoth,
+SUM(offdom) as offdom,
 repdte
-FROM DM_ODS.ODS_SDI_ADDTLNONINTRSTEXPNS
+FROM DM_ODS.ODS_SDI_BANKDEMOGRAPHICS
 group by repdte
 order by repdte
 
