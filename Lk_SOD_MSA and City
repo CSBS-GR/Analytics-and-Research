@@ -1,0 +1,55 @@
+drop table MDS_LK_MSA;
+
+create table LK_SOD_MSA as 
+select distinct MSABR as MSA_ID,
+MSANAMB as MSA_DESC
+from MDS_SOD
+order by MSABR DESC;
+
+
+
+
+drop table DM_MDS.MDS_LK_CITY;
+create table DM_MDS.LK_SOD_CITY as 
+SELECT
+ (state_id *100000 + dense_rank() over (partition by state_id order by city_desc)) as city_id
+,city_desc
+,state_id
+from
+(
+select 
+ a.city_desc
+,b.stnumbr as state_id
+from
+(
+SELECT DISTINCT
+initcap(city_desc) as city_desc
+,state_Cd
+from (
+
+select 
+MDS_SOD.CITY2BR as CITY_DESC
+,MDS_SOD.StalpBR as State_cd
+from DM_MDS.MDS_SOD 
+
+union all
+
+select 
+MDS_SOD.CITYHCR as CITY_DESC
+,MDS_SOD.stalphcr as State_cd 
+from DM_MDS.MDS_SOD
+
+union all
+select 
+MDS_SOD.CITY as CITY_DESC
+,MDS_SOD.stalp as State_cd 
+from DM_MDS.MDS_SOD
+)
+) a
+join 
+(select distinct
+stnumbr
+,stalpbr
+from  DM_MDS.MDS_SOD) b
+on (b.stalpbr = a.state_cd) )
+order by state_id, city_desc    

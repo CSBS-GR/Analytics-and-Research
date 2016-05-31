@@ -1,0 +1,16 @@
+drop table DM_MDS.LK_SOD_County;
+
+create table DM_MDS.LK_SOD_County as 
+SELECT
+(State_ID *1000 + dense_rank() over (partition by State_ID order by county_desc)) as county_id
+,county_desc
+,State_ID
+,MSA_ID
+from(
+select distinct 
+CNTYNUMB, 
+CNTYNAMB as COUNTY_DESC, 
+MDS_SOD.stnumbr as State_ID,
+MDS_SOD.MSABR as  MSA_ID
+from DM_MDS.MDS_SOD)
+order by COUNTY_desc;  

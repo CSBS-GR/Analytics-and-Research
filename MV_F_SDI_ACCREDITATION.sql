@@ -1,7 +1,31 @@
---create materialized view 
---dm_mds.mv_f_sdi_accreditation as
-select
-  case when (a.numemp is null) then 0 else a.numemp end as numemp
+DROP MATERIALIZED view dm_mds.mv_f_sdi_accreditation;
+
+create materialized view 
+dm_mds.mv_f_sdi_accreditation as
+SELECT
+  A.BANK_DEMO_ID
+, A.CERT_BUS_ID
+, CASE WHEN (A.NOIJ IS NULL) THEN 0 ELSE A.NOIJ END AS NOIJ
+, CASE WHEN (A.NUMEMP IS NULL) THEN 0 ELSE A.NUMEMP END AS NUMEMP
+, CASE WHEN (A.ASTEMPM IS NULL) THEN 0 ELSE A.ASTEMPM END AS ASTEMPM
+, CASE WHEN (A.EQCDIV_INCOMEEXPENSE IS NULL) THEN 0 ELSE A.EQCDIV_INCOMEEXPENSE END AS EQCDIV
+, CASE WHEN (A.EQPP IS NULL) THEN 0 ELSE A.EQPP END AS EQPP
+, CASE WHEN (A.ERNAST5 IS NULL) THEN 0 ELSE A.ERNAST5 END AS ERNAST5
+, CASE WHEN (A.INTAN__SSETSLIABILITIES IS NULL) THEN 0 ELSE A.INTAN__SSETSLIABILITIES END AS INTAN
+, CASE WHEN (A.LNATRES_ASSETSLIABILITIES IS NULL) THEN 0 ELSE A.LNATRES_ASSETSLIABILITIES END AS LNATRES
+, CASE WHEN (A.LNAUTO IS NULL) THEN 0 ELSE A.LNAUTO END AS LNAUTO
+, CASE WHEN (A.LNCONOTH IS NULL) THEN 0 ELSE A.LNCONOTH END AS LNCONOTH
+, CASE WHEN (A.LNCONRP IS NULL) THEN 0 ELSE A.LNCONRP END AS LNCONRP
+, CASE WHEN (A.LNCRCD IS NULL) THEN 0 ELSE A.LNCRCD END AS LNCRCD
+, CASE WHEN (A.LNRELOC IS NULL) THEN 0 ELSE A.LNRELOC END AS LNRELOC
+, CASE WHEN (A.NCRERESR IS NULL) THEN 0 ELSE A.NCRERESR END AS NCRERESR
+, CASE WHEN (A.NONII IS NULL) THEN 0 ELSE A.NONII END AS NONII
+, CASE WHEN (A.NTLNLS_INCOMEEXPENSE IS NULL) THEN 0 ELSE A.NTLNLS_INCOMEEXPENSE END AS NTLNLS
+, CASE WHEN (A.NTRTMLGJ IS NULL) THEN 0 ELSE A.NTRTMLGJ END AS NTRTMLGJ
+, CASE WHEN (A.RBC1RWAJ IS NULL) THEN 0 ELSE A.RBC1RWAJ END AS RBC1RWAJ
+, CASE WHEN (A.RBCT1CER IS NULL) THEN 0 ELSE A.RBCT1CER END AS RBCT1CER
+--, CASE WHEN (A.SC IS NULL) THEN 0 ELSE A.SC END AS SC
+--, CASE WHEN (A.trade IS NULL) THEN 0 ELSE A.trade END AS trade
 , case when (a.NETINC_INCOMEEXPENSE is null) then 0 else a.NETINC_INCOMEEXPENSE end as NETINC
 , case when (a.asset is null) then 0 else a.asset end as asset
 , case when (a.ernast is null) then 0 else a.ernast end as ernast
@@ -38,7 +62,8 @@ select
 , case when (a.IDNTILR is null) then 0 else a.IDNTILR end as IDNTILR
 , case when (a.IDNTIGR is null) then 0 else a.IDNTIGR end as IDNTIGR
 , case when (a.NOIJY is null) then 0 else a.NOIJY end as NOIJY
-, a.repdte 
+, A.REPDTE 
+--, case when (a.LNLSNTV is null) then 0 else a.LNLSNTV end as LNLSNTV
 , case when (a.LNLSNTV is null) then 0 else a.LNLSNTV end as LNLSNTV
 , case when (a.P3ASSET is null) then 0 else a.P3ASSET end as P3ASSET
 , case when (a.P9ASSET is null) then 0 else a.P9ASSET end as P9ASSET
@@ -55,13 +80,25 @@ select
 , case when (a.RBC1AAJ is null) then 0 else a.RBC1AAJ end as RBC1AAJ
 , case when (a.RBCRWAJ is null) then 0 else a.RBCRWAJ end as RBCRWAJ
 , case when (a.CHBAL_CASHBALDUE is null) then 0 else a.CHBAL_CASHBALDUE end as chbal
-, case when (a.SC_SECURITIES is null) then 0 else a.SC_SECURITIES end as SC_SECURITIES
+, case when (a.SC_SECURITIES is null) then 0 else a.SC_SECURITIES end as SC
 , case when (a.SCPLEDGE is null) then 0 else a.SCPLEDGE end as SCPLEDGE
-, case when (a.TRADE_SECURITIES is null) then 0 else a.TRADE_SECURITIES end as TRADE_SECURITIES
+, case when (a.TRADE_SECURITIES is null) then 0 else a.TRADE_SECURITIES end as TRADE
 , case when (a.LIAB is null) then 0 else a.LIAB end as LIAB
-, case when (a.LNLSDEPR is null) then 0 else a.LNLSDEPR end as LNLSDEPR
---, case when (a.lncomre is null then 0 else a.lcomre end) as lncomre
+, CASE WHEN (A.LNLSDEPR IS NULL) THEN 0 ELSE A.LNLSDEPR END AS LNLSDEPR
+, CASE WHEN (A.LNCOMRE IS NULL) THEN 0 ELSE A.LNCOMRE END AS LNCOMRE
+, 1 AS BANKCOUNT 
+, CASE WHEN ( ADD_MONTHS( A.REPDTE, -36) < C.ESTYMD) THEN 1 ELSE 0 END AS NEW_BANK_IND
+, C.CB
+, C.SUBCHAPS_IND
+, CASE WHEN (D.SDI_BK_CLASS_DESC IN ('SM','NM','SB') OR
+             (D.SDI_BK_CLASS_DESC IN ('OI','SA') AND E.SDI_REGAGNT_DESC IN ('FDIC'))) 
+             then 1 else 0 end as state_charter_ind
 from dm_mds.f_sdi_data a
 join DM_MDS.F_SDI_DATA_TOTAL b on 
-             (a.bank_demo_id = b.bank_demo_id and b.repdte=a.repdte)
-WHERE ROWNUM <= 100 -- and a.repdte >= (select add_months(max(repdte),-48) from DM_MDS.LK_SDI_BANK_DEMO);
+             (A.BANK_DEMO_ID = B.BANK_DEMO_ID AND B.REPDTE=A.REPDTE)
+LEFT JOIN DM_MDS.MV_LK_SDI_BANK_DEMO_CRNT C ON (A.cert_bus_id = C.cert_bus_ID)
+LEFT JOIN DM_MDS.LK_SDI_BK_CLASS D ON (C.SDI_BK_CLASS_ID = D.SDI_BK_CLASS_ID)
+LEFT JOIN DM_MDS.LK_SDI_REGAGNT E ON (C.SDI_REGAGNT_ID = E.SDI_REGAGNT_ID)
+
+WHERE A.REPDTE >= (SELECT ADD_MONTHS(MAX(REPDTE),-48) FROM DM_MDS.LK_SDI_BANK_DEMO);
+
