@@ -17,7 +17,8 @@ SELECT
 ,ANSWER_TEXT_AREA
 ,CERTIFIED
 ,A.REPORT_HEADER_TEXT
-,olsonid
+,OLSONID
+,C.ISTABLE__C
 ,dense_rank() over (order by account asc, year desc, cast(b.order__C as integer)*100000+ c.order__c) as q_order
 FROM 
 DM_ods.ODS_PROFILE_RESPONSE__C A
