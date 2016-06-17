@@ -13,4 +13,4 @@ when cb.Account_ID in (3,4,8,9,10,11,12,28,39,41,42,52,64,65,69) then 5
 end as District_ID
 FROM LK_PF_VALIDAGENCY b
 inner join LK_PF_ACCOUNT cb
-on b.account = cb.full_name;
+on b.account = cb.PROFILE_ACCOUNT_NAME;

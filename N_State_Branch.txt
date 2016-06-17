@@ -1,0 +1,28 @@
+SELECT
+RANK
+,ID_FDIC_CERT
+,ID_RSSD
+,ENTITY_TYPE
+,NAME
+,CITY
+,STATE
+,MSA_STATUS
+ 
+,case when N_BRANCHES = 0 then 1
+when N_BRANCHES > 0 and N_BRANCHES <=5 then 2
+when N_BRANCHES > 6 and N_BRANCHES <=10 then 3
+when N_BRANCHES > 10  then 4
+else -1
+end as N_BRANCHES, 
+
+case when N_STATES in (1) then 1
+when N_STATES in (2) then 2
+when N_STATES in (3) then 3
+when N_STATES in (4) then 4
+when N_STATES in (5) then 5
+when  N_STATES >=6 then 6
+else -1
+end as N_STATES
+
+
+FROM TMP_NSCB_2016_DEMOGRAPHICS;
