@@ -1,0 +1,3 @@
+select (P3asset+p9asset)/lnlsgr from MV_F_SDI_ACCREDITATION 
+where cert_bus_id =32773
+and to_char(repdte,'YYYYQ') = 20161

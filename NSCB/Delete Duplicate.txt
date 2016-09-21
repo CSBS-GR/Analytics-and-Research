@@ -1,0 +1,41 @@
+select CERT_BUS_ID from F_NSCB_2016
+group by cert_bus_ID
+having count(cert_bus_ID)>1);
+
+
+select * from F_NSCB_2016 where cert_bus_id = 
+57924 or cert_bus_id = 8472
+or cert_bus_id = 1095
+or cert_bus_id = 11607
+or cert_bus_id = 12386
+or cert_bus_id = 15913
+or cert_bus_id = 11681
+or cert_bus_id = 23799
+or cert_bus_id = 17598
+or cert_bus_id = 11438
+or cert_bus_id = 14560
+or cert_bus_id = 8718
+or cert_bus_id = 5510
+or cert_bus_id = 1147
+or cert_bus_id = 16464
+
+delete from F_NSCB_2016 where CASEID = 13272 and ID_FDIC_CERT = 1095;
+delete from F_NSCB_2016 where CASEID = 13428 and ID_FDIC_CERT = 5510;
+delete from F_NSCB_2016 where CASEID = 10441 and ID_FDIC_CERT = 11607;
+delete from F_NSCB_2016 where CASEID = 10707 and ID_FDIC_CERT = 16464;
+delete from F_NSCB_2016 where CASEID = 10837 and ID_FDIC_CERT = 12386;
+delete from F_NSCB_2016 where CASEID = 11289 and ID_FDIC_CERT = 15913;
+delete from F_NSCB_2016 where CASEID = 11418 and ID_FDIC_CERT = 23799;
+delete from F_NSCB_2016 where CASEID = 10254 and ID_FDIC_CERT = 57924;
+delete from F_NSCB_2016 where CASEID = 11204 and ID_FDIC_CERT = 11438;
+delete from F_NSCB_2016 where CASEID = 12058 and ID_FDIC_CERT = 17598;
+delete from F_NSCB_2016 where CASEID = 10996 and ID_FDIC_CERT = 1147;
+delete from F_NSCB_2016 where CASEID = 10330 and ID_FDIC_CERT = 8472;
+delete from F_NSCB_2016 where CASEID = 10317 and ID_FDIC_CERT = 14560;
+delete from F_NSCB_2016 where CASEID = 10826 and ID_FDIC_CERT = 8718;
+delete from F_NSCB_2016 where CASEID = 10859 and ID_FDIC_CERT = 11681;
+
+select * from DM_MDS.F_NSCB_2016 where CURRENT_COMP01 = 9 and FUTURE_COMP01 = 9 
+and buy_01 = 9 and CURRENT_COMP02 = 9 and CURRENT_COMP03 = 9;
+
+
