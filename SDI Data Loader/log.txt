@@ -1,0 +1,6 @@
+--------------------------
+Date of Execution: Thu Dec 01 12:30:37 2016
+Number of files on Web: 96
+Number of files on local: 49
+Number of new files: 47
+Number of files downloaded: 47
