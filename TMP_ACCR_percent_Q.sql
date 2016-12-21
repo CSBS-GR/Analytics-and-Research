@@ -1,4 +1,4 @@
-create table dm_mds.tmp_pf_accr_percent;
+drop table dm_mds.tmp_pf_accr_percent;
 create table dm_mds.tmp_pf_accr_percent as
 select account, year, question_label, answer_percent as response, pct_avg as national_level, accr_categ, olsonid, topic_title from (
 SELECT
