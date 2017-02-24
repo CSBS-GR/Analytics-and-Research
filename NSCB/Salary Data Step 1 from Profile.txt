@@ -1,0 +1,22 @@
+select 
+profile_year_id,
+short_name,
+label_text,
+answer_percent
+from
+mv_f_pf_autoreport
+where  --profile_year_id = 2015
+--and 
+section_title_desc = 'Section I'
+and topic_title_desc like '%Characteristics of the State Examiner Workforce'
+and short_name in ('California - DFI','California - DBO')
+and label_text like '%turnover%'
+order by profile_year_id, short_name
+
+
+select distinct topic_title_desc
+from
+mv_f_pf_autoreport
+where profile_year_id = 2015
+and section_title_desc = 'Section I'
+and topic_title_desc
