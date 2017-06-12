@@ -1,0 +1,33 @@
+SELECT /*csv*/
+*
+FROM (
+SELECT YEAR
+--, A.ACCOUNT AGENCY
+, TRIM(SUBSTR(A.QUESTION_LABEL,INSTR(A.QUESTION_LABEL,'--')+2)) AS SALARY
+, B.DISTRICT_ID
+, B.STATE
+, TRIM(SUBSTR(A.QUESTION_LABEL,1,INSTR(A.QUESTION_LABEL,'--')-1)) AS STATE_ROLE
+, A.RESPONSE
+FROM 
+DM_MDS.TMP_PF_ALLYR_SECTIONI A
+JOIN LK_AGENCY B ON B.ACCOUNT = A.ACCOUNT
+WHERE
+TOPIC_TITLE = '9. Salary Ranges'
+AND QUESTION_LABEL LIKE '%--%'
+AND YEAR in (2015,2016)
+)
+PIVOT
+(
+   MAX(RESPONSE)
+   FOR SALARY IN (
+     'Number of Incumbents' N_STA
+   , 'Minimum Base Range' MIN_BASE_STA
+   , 'Maximum Base Range' MAX_BASE_STA
+   , 'Minimum Actual Salary' MIN_ACTUAL_STA
+   , 'Average Actual Salary' AVG_ACTUAL_STA
+   , 'Maximum Actual Salary' MAX_ACTUAL_STA
+   , 'Average Variable/Bonus/Incentive Compensation Paid per Incumbent' AVG_AWARD_STA
+   )
+)
+WHERE DISTRICT_ID IS NOT NULL
+ORDER BY YEAR, STATE;

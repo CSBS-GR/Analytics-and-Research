@@ -1,0 +1,84 @@
+
+  CREATE MATERIALIZED VIEW "DM_MDS"."MV_NSCB_2016_SML_BUS_DEF" ("ANSWERED", "IN_BUSINESS", "PERCENT_SML_BUS_DEF", "SML_BUS_DEF_NAME", "BUS_DEF_ID")
+  ORGANIZATION HEAP PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" 
+  BUILD IMMEDIATE
+  USING INDEX 
+  REFRESH FORCE ON DEMAND
+  USING DEFAULT LOCAL ROLLBACK SEGMENT
+  USING ENFORCED CONSTRAINTS DISABLE QUERY REWRITE
+  AS select
+answered
+,in_business
+,percent_sml_bus_def
+,sml_bus_def_name
+,rownum as bus_def_id
+from 
+(select 
+sum(answered) as answered
+,sum(in_business) as in_business
+,1.0* sum(in_business)/sum(answered) as percent_sml_bus_def
+, 'sml_bus_def1' as sml_bus_def_name
+from (
+select 
+  sml_bus_def1
+  , case when sml_bus_def1 in (1,0) then 1 else 0 end as answered
+  , case when sml_bus_def1 in (1) then 1 else 0 end as in_business
+from dm_mds.f_nscb_2016) a
+
+union
+select 
+sum(answered) as answered
+,sum(in_business) as in_business
+,1.0* sum(in_business)/sum(answered) as percent_sml_bus_def
+, 'sml_bus_def2' as sml_bus_def_name
+from (
+select 
+  sml_bus_def2
+  , case when sml_bus_def2 in (1,0) then 1 else 0 end as answered
+  , case when sml_bus_def2 in (1) then 1 else 0 end as in_business
+from dm_mds.f_nscb_2016) a
+
+union
+select 
+sum(answered) as answered
+,sum(in_business) as in_business
+,1.0* sum(in_business)/sum(answered) as percent_sml_bus_def
+, 'sml_bus_def3' as sml_bus_def_name
+from (
+select 
+  sml_bus_def3
+  , case when sml_bus_def3 in (1,0) then 1 else 0 end as answered
+  , case when sml_bus_def3 in (1) then 1 else 0 end as in_business
+from dm_mds.f_nscb_2016) a
+union
+select 
+sum(answered) as answered
+,sum(in_business) as in_business
+,1.0* sum(in_business)/sum(answered) as percent_sml_bus_def
+, 'sml_bus_def4' as sml_bus_def_name
+from (
+select 
+  sml_bus_def4
+  , case when sml_bus_def4 in (1,0) then 1 else 0 end as answered
+  , case when sml_bus_def4 in (1) then 1 else 0 end as in_business
+from dm_mds.f_nscb_2016) a
+
+union
+select 
+sum(answered) as answered
+,sum(in_business) as in_business
+,1.0* sum(in_business)/sum(answered) as percent_sml_bus_def
+, 'sml_bus_def5' as sml_bus_def_name
+from (
+select 
+  sml_bus_def5
+  , case when sml_bus_def5 in (1,0) then 1 else 0 end as answered
+  , case when sml_bus_def5 in (1) then 1 else 0 end as in_business
+from dm_mds.f_nscb_2016) a
+
+order by sml_bus_def_name asc);

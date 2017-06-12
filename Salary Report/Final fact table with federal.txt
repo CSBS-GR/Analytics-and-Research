@@ -1,0 +1,100 @@
+create table F_SALARY_REPORT_14N15_FINAL1 as
+select  from
+(Select cb. salary_14, 
+  cb.ACCOUNT_ID,
+   cb.ACCOUNT,
+   cb.DISTRICT_ID,
+   cb.N_INCUMBENT,
+   cb.TITLE_ID,
+   cb.POSITION,
+   cb.YEAR,
+   cb.salary_15,
+   cb.MAX_ACTUAL_SALARY,
+   cb.MAX_BASE_RANGE,
+   cb.MID_BASE_RANGE,
+   cb.MIN_ACTUAL_SALARY,
+   cb.MIN_BASE_RANGE,
+   cb.N_Fed_Incumbent,
+   cb.AVG,
+   cb.MAX,
+   cb.MIN,
+case when  cb.salary_15 is null or cb.salary_15 = 0 then cb.salary_14
+else cb.salary_15 
+end as Salary_14_or_15,
+case when  cb.salary_15 is null or cb.salary_15 = 0 then 2014
+else 2015
+end as data_source
+from(
+select a.avg_actual_salary as salary_14, 
+  b.ACCOUNT_ID,
+   b.ACCOUNT,
+   b.DISTRICT_ID,
+   b.N_INCUMBENT,
+   b.TITLE_ID,
+   b.POSITION,
+   b.YEAR,
+   b.AVG_ACTUAL_SALARY as salary_15,
+   b.MAX_ACTUAL_SALARY,
+   b.MAX_BASE_RANGE,
+   b.MID_BASE_RANGE,
+   b.MIN_ACTUAL_SALARY,
+   b.MIN_BASE_RANGE,
+   b.N_Fed_Incumbent,
+   b.AVG,
+   b.MAX,
+   b.MIN
+ from 
+(select  from F_SALARY_REPORT_14N15_FINAL where year =2014) a 
+join (select  from F_SALARY_REPORT_14N15_FINAL where year =2015)b 
+on a.position = b.position and a.account = b.account)cb
+
+
+union
+
+Select cb1. salary_14, 
+  cb1.ACCOUNT_ID,
+   cb1.ACCOUNT,
+   cb1.DISTRICT_ID,
+   cb1.N_INCUMBENT,
+   cb1.TITLE_ID,
+   cb1.POSITION,
+   cb1.YEAR,
+   cb1.salary_15,
+   cb1.MAX_ACTUAL_SALARY,
+   cb1.MAX_BASE_RANGE,
+   cb1.MID_BASE_RANGE,
+   cb1.MIN_ACTUAL_SALARY,
+   cb1.MIN_BASE_RANGE,
+   cb1.N_Fed_Incumbent,
+   cb1.AVG,
+   cb1.MAX,
+   cb1.MIN,
+case when  cb1.salary_15 is null or cb1.salary_15 = 0 then cb1.salary_14
+else cb1.salary_15 
+end as Salary_14_or_15,
+case when  cb1.salary_15 is null or cb1.salary_15 = 0 then 2014
+end as data_source
+from(
+select a1.avg_actual_salary as salary_15, 
+  b1.ACCOUNT_ID,
+   b1.ACCOUNT,
+   b1.DISTRICT_ID,
+   b1.N_INCUMBENT,
+   b1.TITLE_ID,
+   b1.POSITION,
+   b1.YEAR,
+   b1.AVG_ACTUAL_SALARY as salary_14,
+   b1.MAX_ACTUAL_SALARY,
+   b1.MAX_BASE_RANGE,
+   b1.MID_BASE_RANGE,
+   b1.MIN_ACTUAL_SALARY,
+   b1.MIN_BASE_RANGE,
+   b1.N_Fed_Incumbent,
+   b1.AVG,
+   b1.MAX,
+   b1.MIN
+ from 
+(select  from F_SALARY_REPORT_14N15_FINAL where year =2015) a1 
+join (select  from F_SALARY_REPORT_14N15_FINAL where year =2014)b1 
+on a1.position = b1.position and a1.account = b1.account)cb1)dd
+order by dd.year,dd.account asc, dd.position asc;

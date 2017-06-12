@@ -6,7 +6,7 @@ B.YEAR
 ,A.ACCR_CATEG
 ,A.QUESTION_LABEL
 ,CASE WHEN C.RESPONSE IS NULL THEN '0' ELSE C.RESPONSE END AS RESPONSE
-,case when C.NATIONAL_AVG is null then 0 else C.NATIONAL_AVG end as NATIONAL_AVG
+,CASE WHEN C.NATIONAL_AVG IS NULL THEN 0 ELSE C.NATIONAL_AVG END AS NATIONAL_AVG
 
 
 FROM (
@@ -15,14 +15,14 @@ FROM (
       ,ACCR_CATEG
       ,CASE WHEN ACCR_CATEG = 'Application Information' THEN 5
             WHEN ACCR_CATEG = 'Budget Information' THEN 2
-            WHEN ACCR_CATEG ='Depository Information' THEN 4
-            WHEN ACCR_CATEG ='Examination Information' THEN 6
-            WHEN ACCR_CATEG ='General Agency Information' THEN 1
-            WHEN ACCR_CATEG ='Report Turnaround Information' THEN 7
-            WHEN ACCR_CATEG ='Sources of Funding' THEN 3
-            WHEN ACCR_CATEG ='Specialty Exams Information' THEN 8
-            WHEN ACCR_CATEG ='Turnover Information' THEN 10
-            WHEN ACCR_CATEG ='Workforce Information' THEN 9
+            WHEN ACCR_CATEG = 'Depository Information' THEN 4
+            WHEN ACCR_CATEG = 'Examination Information' THEN 6
+            WHEN ACCR_CATEG = 'General Agency Information' THEN 1
+            WHEN ACCR_CATEG = 'Report Turnaround Information' THEN 7
+            WHEN ACCR_CATEG = 'Sources of Funding' THEN 3
+            WHEN ACCR_CATEG = 'Specialty Exams Information' THEN 8
+            WHEN ACCR_CATEG = 'Turnover Information' THEN 10
+            WHEN ACCR_CATEG = 'Workforce Information' THEN 9
             WHEN ACCR_CATEG = 'Years of Service' THEN 11
             ELSE 12 END AS ORDER_CATEG
      FROM (

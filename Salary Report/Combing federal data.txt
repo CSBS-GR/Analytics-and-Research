@@ -1,0 +1,58 @@
+SELECT
+b.ACCOUNT_ID
+, a.ID
+, a.POSITION
+, a.N_INCUMBENT
+, a.MIN_BASE_RANGE
+, a.MAX_BASE_RANGE
+, a.MIN_ACTUAL_SALARY
+, a.Avg_Actual_SALARY
+, a.MAX_ACTUAL_SALARY
+, a.BONUS
+, a.DATA_SOURCE
+, a.SALARY_14
+, a.MID_BASE_RANGE
+, a.ACCOUNT,
+case when b.Account_ID in (16,17,18,31,32,33,34,43,44,46,53,54,55,66,76)then 1
+when b.Account_ID in (24,25,26,27,29,35,36,38,49,71,77,78)then 2
+when b.Account_ID in (1,2,5,6,19,20,30,37,47,56,57,58,59,60,67,68,70,79,80,81)then 3
+when b.Account_ID in (13,14,15,21,22,23,40,45,48,50,51,61,62,63,72,73,74,75,82,83,84) then 4
+when b.Account_ID in (3,4,7,8,9,10,11,12,28,39,41,42,52,64,65,69) then 5
+end as District_ID
+
+FROM TMP_SALARY_REPORT a
+
+inner join LK_Agency b
+on upper(a.Account) = upper(b.Account);
+
+
+
+Drop table F_SALARY_REPORT_14N15_Final;
+create table F_SALARY_REPORT_14N15_Final as
+SELECT b.ACCOUNT_ID,
+  b.ACCOUNT,
+  b.DISTRICT_ID,
+  b.N_INCUMBENT,
+  b.TITLE_ID,
+  b.POSITION,
+  b.AVG_ACTUAL_SALARY,
+  b.MAX_ACTUAL_SALARY,
+  b.MAX_BASE_RANGE,
+  b.MID_BASE_RANGE,
+  b.MIN_ACTUAL_SALARY,
+  b.MIN_BASE_RANGE,
+  b.Bonus,
+  b.Data_Source,
+a.N_Fed_Incumbent,
+a.Avg,
+a.Max,
+a.Min,
+b.Year
+from F_SALARY_REPORT_STATE b 
+left join 
+(select state,EQUIVALENT_ACCOUNT,position, count(ID) as N_Fed_Incumbent,avg(salary)/1000 as Avg, max(salary)/1000 as Max, min(salary)/1000 as Min
+from TMP_FEDERAL_SALARY 
+group by state,EQUIVALENT_ACCOUNT, position
+order by state asc ) a
+on b.Account = a.EQUIVALENT_ACCOUNT and b.POSITION = a.POSITION
+order by b.ACCOUNT asc;

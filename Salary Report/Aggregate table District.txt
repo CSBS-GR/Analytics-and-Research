@@ -1,0 +1,54 @@
+create table f_salary_report_district as
+select ab.year,ab.district_ID,ab.position,ab.denominator as Nr_Incumbents,
+ab.Max_Actual_Salary,ab.Min_Actual_Salary,ab. Avg_Actual_Salary, 
+ab1.fed_denominator as Nr_Fed_Incumbents,
+ab1.Fed_Max_Actual_Salary,ab1.Fed_Min_Actual_Salary,ab1.Fed_Avg_Actual_Salary 
+from
+(select a.year,a.district_ID,a.position,a.nominator,b.denominator,a.nominator/b.denominator as Avg_Actual_Salary,
+a.Max_Actual_Salary,a.Min_Actual_Salary
+from(
+(select year,district_ID,position,max(MAX_ACTUAL_SALARY)as Max_Actual_Salary,min(MIN_ACTUAL_SALARY) as Min_Actual_Salary, 
+sum(N_incumbent * avg_actual_salary)as nominator
+from F_SALARY_REPORT_14N15_FINAL
+where district_ID > 0
+group by year,district_ID, position
+order by year,district_ID, position )a
+join 
+(select year,district_ID,position,
+sum(N_incumbent)as denominator
+from F_SALARY_REPORT_14N15_FINAL 
+where avg_actual_salary > 0 and district_ID > 0
+group by year,district_ID, position
+order by year,district_ID, position )b
+on a.year = b.year and a.district_ID = b.district_ID and a.position = b.position))ab
+
+left join
+
+(select a1.year,a1.district_ID,a1.position, 
+a1.fed_nominator,b1.fed_denominator, a1.fed_nominator/b1.fed_denominator as Fed_Avg_Actual_Salary,
+a1.Fed_Max_Actual_Salary,a1.Fed_Min_Actual_Salary
+from(
+(select year,district_ID,position,max(MAX)as Fed_Max_Actual_Salary, min(MIN)as Fed_Min_Actual_Salary,
+sum(N_fed_incumbent * AVG) as fed_nominator
+from F_SALARY_REPORT_14N15_FINAL
+where district_ID > 0
+group by year,district_ID, position
+order by year,district_ID, position )a1
+join 
+(select year,district_ID,position,
+sum(N_fed_incumbent) as fed_denominator
+from F_SALARY_REPORT_14N15_FINAL 
+where avg > 0 and district_ID > 0
+group by year,district_ID, position
+order by year,district_ID, position )b1
+on a1.year = b1.year and a1.district_ID = b1.district_ID and a1.position = b1.position))ab1
+on ab1.year = ab.year and ab.district_ID = ab1.district_ID and ab.position = ab1.position
+;
+
+
+
+select * from F_SALARY_REPORT_DISTRICT ac
+join lk_sr_title b
+on ac.position = b.title_desc
+where year = 2015
+order by b.title_id,ac.district_id;
